@@ -141,7 +141,7 @@ typedef NS_ENUM(NSInteger, TOCropViewOverlayEdge) {
     self.applyInitialCroppedImageFrame = NO;
     self.editing = NO;
     self.cropBoxResizeEnabled = !circularMode;
-    self.aspectRatio = circularMode ? (CGSize){1.0f, 1.0f} : CGSizeZero;
+    self.aspectRatio = (CGSize){1.0f, 1.0f};
     self.resetAspectRatioEnabled = !circularMode;
     self.restoreImageCropFrame = CGRectZero;
     self.restoreAngle = 0;
@@ -822,19 +822,20 @@ typedef NS_ENUM(NSInteger, TOCropViewOverlayEdge) {
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
-    if (gestureRecognizer != self.gridPanGestureRecognizer)
-        return YES;
-    
-    CGPoint tapPoint = [gestureRecognizer locationInView:self];
-    
-    CGRect frame = self.gridOverlayView.frame;
-    CGRect innerFrame = CGRectInset(frame, 22.0f, 22.0f);
-    CGRect outerFrame = CGRectInset(frame, -22.0f, -22.0f);
-    
-    if (CGRectContainsPoint(innerFrame, tapPoint) || !CGRectContainsPoint(outerFrame, tapPoint))
-        return NO;
-    
-    return YES;
+    return false;
+//    if (gestureRecognizer != self.gridPanGestureRecognizer)
+//        return YES;
+//    
+//    CGPoint tapPoint = [gestureRecognizer locationInView:self];
+//    
+//    CGRect frame = self.gridOverlayView.frame;
+//    CGRect innerFrame = CGRectInset(frame, 22.0f, 22.0f);
+//    CGRect outerFrame = CGRectInset(frame, -22.0f, -22.0f);
+//    
+//    if (CGRectContainsPoint(innerFrame, tapPoint) || !CGRectContainsPoint(outerFrame, tapPoint))
+//        return NO;
+//    
+//    return YES;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
