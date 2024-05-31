@@ -74,6 +74,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
 @property (nonatomic, assign) BOOL firstTime;
 
 @property (nonatomic, strong) UIButton *closeButton;
+@property (nonatomic, assign) int curIndex;
 
 
 @end
@@ -1163,8 +1164,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout.minimumInteritemSpacing = 10;
     layout.minimumLineSpacing = 10;
-
-//    layout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5);
+    layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50) collectionViewLayout:layout];
     self.collectionView.delegate = self;
@@ -1201,17 +1201,18 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
         [subview removeFromSuperview];
     }
     
+    bool isSelected = (self.curIndex == indexPath.row);
     CGFloat width = [self getItemWidth: (int)indexPath.row];
     CGFloat labelWidth = MAX(width, 35);
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 35, labelWidth, 15)];
     label.text = self.aspectRatios[indexPath.row];
-    label.textColor = [UIColor yellowColor];
+    label.textColor = isSelected ? [UIColor yellowColor] : [UIColor whiteColor];
     label.font = [UIFont systemFontOfSize:12];
     label.textAlignment = NSTextAlignmentCenter;
     [cell.contentView addSubview:label];
     
     UIView *ratioView = [[UIView alloc] initWithFrame:CGRectMake((labelWidth - width)/2, 0, width, 30)];
-    ratioView.layer.borderColor = [UIColor yellowColor].CGColor;
+    ratioView.layer.borderColor = isSelected ? [UIColor yellowColor].CGColor : [UIColor whiteColor].CGColor;
     ratioView.layer.borderWidth = 1.0;
     [cell.contentView addSubview:ratioView];
     
@@ -1231,6 +1232,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     CGFloat widthRatio = [components[0] floatValue];
     CGFloat heightRatio = [components[1] floatValue];
     [self setAspectRatioWidth:widthRatio height:heightRatio animated:true];
+    self.curIndex = (int)indexPath.row;
+    [self.collectionView reloadData];
 }
 
 - (CGFloat)getItemWidth: (int)index {
