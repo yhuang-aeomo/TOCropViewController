@@ -73,6 +73,9 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
 /* Flag to perform initial setup on the first run */
 @property (nonatomic, assign) BOOL firstTime;
 
+@property (nonatomic, strong) UIButton *closeButton;
+
+
 @end
 
 @implementation TOCropViewController
@@ -143,6 +146,21 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     //    self.toolbar.clampButtonTapped = ^{ [weakSelf showAspectRatioDialog]; };
     //    self.toolbar.rotateCounterclockwiseButtonTapped = ^{ [weakSelf rotateCropViewCounterclockwise]; };
     //    self.toolbar.rotateClockwiseButtonTapped        = ^{ [weakSelf rotateCropViewClockwise]; };
+    
+    // Initialize and set up the close button with system image
+    self.closeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    if (@available(iOS 13.0, *)) {
+        UIImage *closeImage = [UIImage systemImageNamed:@"xmark"];
+        [self.closeButton setImage:closeImage forState:UIControlStateNormal];
+    } else {
+        // Fallback for earlier iOS versions
+        [self.closeButton setTitle:@"X" forState:UIControlStateNormal];
+    }
+    self.closeButton.tintColor = [UIColor whiteColor]; // Set the color to white
+    [self.closeButton addTarget:self action:@selector(dismissCropViewController) forControlEvents:UIControlEventTouchUpInside];
+    CGFloat buttonSize = 44.0f;
+    CGFloat padding = 10.0f;
+    self.closeButton.frame = CGRectMake(self.view.bounds.size.width - buttonSize - padding, padding*4, buttonSize, buttonSize);
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -407,6 +425,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     CGRect frame = self.titleLabel.frame;
     frame.size = [self.titleLabel sizeThatFits:self.cropView.frame.size];
     self.titleLabel.frame = frame;
+    self.closeButton.center = CGPointMake(self.closeButton.center.x, self.titleLabel.center.y);
     
     // Set out the appropriate inset for that
     CGFloat verticalInset = self.statusBarHeight;
@@ -1121,6 +1140,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
         _cropView.delegate = self;
         _cropView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.view addSubview:_cropView];
+        [self.view addSubview:self.closeButton];
     }
     return _cropView;
 }
