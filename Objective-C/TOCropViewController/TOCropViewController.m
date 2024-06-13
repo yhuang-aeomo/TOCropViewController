@@ -1161,7 +1161,15 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     [self.view addSubview:self.bottomView];
     
     UIButton *rotationBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 40  - 10, 0, 40, 40)];
-    [rotationBtn setImage:[UIImage imageNamed:@"rotation_icon"] forState:UIControlStateNormal];
+    if (@available(iOS 13.0, *)) {
+        UIImage *rotationImage = [[UIImage systemImageNamed:@"rotate.right"] imageWithTintColor:[UIColor whiteColor] renderingMode:UIImageRenderingModeAlwaysOriginal];
+        [rotationBtn setImage:rotationImage forState:UIControlStateNormal];
+        rotationBtn.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent: 0.7];
+        rotationBtn.layer.cornerRadius = 10;
+        rotationBtn.layer.masksToBounds = YES;
+    } else {
+        [rotationBtn setTitle:@"rotate" forState:UIControlStateNormal];
+    }
     [rotationBtn addTarget:self action:@selector(onClickRotation) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:rotationBtn];
     
