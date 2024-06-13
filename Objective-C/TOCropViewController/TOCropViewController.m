@@ -1160,13 +1160,18 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     self.bottomView.backgroundColor = [UIColor colorWithWhite:0.12f alpha:1.0f];
     [self.view addSubview:self.bottomView];
     
+    UIButton *rotationBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 40  - 10, 0, 40, 40)];
+    [rotationBtn setImage:[UIImage imageNamed:@"rotation_icon"] forState:UIControlStateNormal];
+    [rotationBtn addTarget:self action:@selector(onClickRotation) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottomView addSubview:rotationBtn];
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout.minimumInteritemSpacing = 10;
     layout.minimumLineSpacing = 10;
     layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
     
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50) collectionViewLayout:layout];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, 50) collectionViewLayout:layout];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.showsHorizontalScrollIndicator = false;
@@ -1179,7 +1184,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     self.aspectRatios = @[@"1:1", @"3:4", @"4:3", @"4:5", @"5:4", @"9:16", @"16:9"];
     
     self.actionButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.actionButton.frame = CGRectMake(self.bottomView.bounds.size.width/4, 80, self.bottomView.bounds.size.width/2, 50);
+    self.actionButton.frame = CGRectMake(self.bottomView.bounds.size.width/4, 120, self.bottomView.bounds.size.width/2, 50);
     [self.actionButton setTitle:@"Try It" forState:UIControlStateNormal];
     [self.actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.actionButton.backgroundColor = [UIColor whiteColor];
@@ -1187,6 +1192,10 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     self.actionButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
     [self.actionButton addTarget:self action:@selector(doneButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:self.actionButton];
+}
+
+- (void)onClickRotation {
+    [self.cropView rotateImageNinetyDegreesAnimated: true clockwise: true];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
