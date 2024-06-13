@@ -1248,7 +1248,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     NSArray *components = [aspectRatio componentsSeparatedByString:@":"];
     CGFloat widthRatio = [components[0] floatValue];
     CGFloat heightRatio = [components[1] floatValue];
-    [self setAspectRatioWidth:widthRatio height:heightRatio animated:true];
+    [self.cropView setAspectRatio:CGSizeMake(widthRatio, heightRatio) animated:true];
     self.curIndex = (int)indexPath.row;
     [self.collectionView reloadData];
 }
