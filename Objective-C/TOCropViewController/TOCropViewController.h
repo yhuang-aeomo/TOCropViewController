@@ -326,6 +326,10 @@
  */
 @property (nullable, nonatomic, strong) NSArray<NSNumber *> *allowedAspectRatios;
 
+//是否显示ad free按钮
+@property (nonatomic, assign) BOOL showAdFree;
+@property (nonatomic, assign) BOOL clickAdFree;
+
 /**
  When the user hits cancel, or completes a
  UIActivityViewController operation, this block will be called,

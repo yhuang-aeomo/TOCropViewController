@@ -14,7 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) void (^doneCallback)(void);
 @property (nonatomic, copy) void (^rotateCallback)(void);
+@property (nonatomic, copy) void (^adFreeCallback)(void);
 @property (nonatomic, copy) void (^aspectRatioCallback)(float width, float height);
+
+- (instancetype)initWithFrame:(CGRect)frame showAdFree: (BOOL)showAdFree;
 
 @end
 

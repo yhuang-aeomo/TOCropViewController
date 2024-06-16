@@ -9,20 +9,22 @@
 
 @interface TOCropCustomBottomView() <UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
-@property(nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UIButton *actionButton;
 
 @property (nonatomic, strong) NSArray* aspectRatios;
 @property (nonatomic, assign) int curIndex;
+@property (nonatomic, assign) BOOL showAdFree;
 
 @end
 
 @implementation TOCropCustomBottomView
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame showAdFree: (BOOL)showAdFree
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.showAdFree = showAdFree;
         [self setupView];
     }
     return self;
@@ -63,7 +65,7 @@
     self.aspectRatios = @[@"1:1", @"3:4", @"4:3", @"4:5", @"5:4", @"9:16", @"16:9"];
     
     self.actionButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.actionButton.frame = CGRectMake(self.bounds.size.width/4, 120, self.bounds.size.width/2, 50);
+    self.actionButton.frame = CGRectMake(self.bounds.size.width/4, CGRectGetMaxY(self.collectionView.frame) + 20, self.bounds.size.width/2, 50);
     [self.actionButton setTitle:@"Try It" forState:UIControlStateNormal];
     [self.actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.actionButton.backgroundColor = [UIColor whiteColor];
@@ -71,6 +73,24 @@
     self.actionButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
     [self.actionButton addTarget:self action:@selector(doneButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.actionButton];
+    
+    if (self.showAdFree) {
+        // 添加带下划线的文字
+        UILabel *underlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.actionButton.frame) + 20, self.bounds.size.width, 30)];
+        underlineLabel.text = @"Ad-Free Creation";
+        underlineLabel.textColor = [UIColor whiteColor];
+        underlineLabel.font = [UIFont systemFontOfSize:16];
+        underlineLabel.textAlignment = NSTextAlignmentCenter;
+        underlineLabel.userInteractionEnabled = YES; // 启用用户交互
+        // 创建带下划线的属性字符串
+        NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:underlineLabel.text];
+        [attributedText addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:NSMakeRange(0, underlineLabel.text.length)];
+        underlineLabel.attributedText = attributedText;
+        // 添加点击手势识别器
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(underlineLabelTapped)];
+        [underlineLabel addGestureRecognizer:tapGesture];
+        [self addSubview:underlineLabel];
+    }
 }
 
 - (void)onClickRotation {
@@ -155,4 +175,9 @@
     }
 }
 
+- (void)underlineLabelTapped {
+    if (self.adFreeCallback != nil) {
+        self.adFreeCallback();
+    }
+}
 @end

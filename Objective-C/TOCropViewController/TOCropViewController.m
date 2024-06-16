@@ -29,7 +29,7 @@
 #import "TOCropCustomBottomView.h"
 
 static const CGFloat kTOCropViewControllerTitleTopPadding = 14.0f;
-static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
+static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
 
 @interface TOCropViewController () <UIActionSheetDelegate, UIViewControllerTransitioningDelegate, TOCropViewDelegate>
 
@@ -146,19 +146,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     //    self.toolbar.rotateClockwiseButtonTapped        = ^{ [weakSelf rotateCropViewClockwise]; };
     
     // Initialize and set up the close button with system image
-    self.closeButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    if (@available(iOS 13.0, *)) {
-        UIImage *closeImage = [UIImage systemImageNamed:@"xmark"];
-        [self.closeButton setImage:closeImage forState:UIControlStateNormal];
-    } else {
-        // Fallback for earlier iOS versions
-        [self.closeButton setTitle:@"X" forState:UIControlStateNormal];
-    }
-    self.closeButton.tintColor = [UIColor whiteColor]; // Set the color to white
-    [self.closeButton addTarget:self action:@selector(dismissCropViewController) forControlEvents:UIControlEventTouchUpInside];
-    CGFloat buttonSize = 44.0f;
-    CGFloat padding = 10.0f;
-    self.closeButton.frame = CGRectMake(self.view.bounds.size.width - buttonSize - padding, padding*4, buttonSize, buttonSize);
+    [self setupCloseBtn];
     
     [self addOverlayGuideView];
 }
@@ -1110,7 +1098,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
 }
 
 - (void)setupBottomView {
-    self.bottomView = [[TOCropCustomBottomView alloc] initWithFrame: CGRectMake(0, self.view.bounds.size.height - kTOCropViewControllerToolbarHeight, self.view.bounds.size.width, kTOCropViewControllerToolbarHeight)];
+    CGRect frame = CGRectMake(0, self.view.bounds.size.height - kTOCropViewControllerToolbarHeight, self.view.bounds.size.width, kTOCropViewControllerToolbarHeight);
+    self.bottomView = [[TOCropCustomBottomView alloc] initWithFrame:frame showAdFree:self.showAdFree];
     [self.view addSubview:self.bottomView];
     self.bottomView.frame = [self frameForToolbarWithVerticalLayout:self.verticalLayout];
     __weak typeof(self) weakSelf = self;
@@ -1122,6 +1111,10 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
     };
     self.bottomView.aspectRatioCallback = ^(float width, float height) {
         [weakSelf.cropView setAspectRatio:CGSizeMake(width, height) animated:true];
+    };
+    self.bottomView.adFreeCallback = ^{
+        weakSelf.clickAdFree = true;
+        [weakSelf dismissCropViewController];
     };
 }
 
@@ -1159,6 +1152,22 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 200.0f;
         [self.view addSubview:self.closeButton];
     }
     return _cropView;
+}
+
+- (void)setupCloseBtn {
+    self.closeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    if (@available(iOS 13.0, *)) {
+        UIImage *closeImage = [UIImage systemImageNamed:@"xmark"];
+        [self.closeButton setImage:closeImage forState:UIControlStateNormal];
+    } else {
+        // Fallback for earlier iOS versions
+        [self.closeButton setTitle:@"X" forState:UIControlStateNormal];
+    }
+    self.closeButton.tintColor = [UIColor whiteColor]; // Set the color to white
+    [self.closeButton addTarget:self action:@selector(dismissCropViewController) forControlEvents:UIControlEventTouchUpInside];
+    CGFloat buttonSize = 44.0f;
+    CGFloat padding = 10.0f;
+    self.closeButton.frame = CGRectMake(self.view.bounds.size.width - buttonSize - padding, padding*4, buttonSize, buttonSize);
 }
 
 - (TOCropToolbar *)toolbar
