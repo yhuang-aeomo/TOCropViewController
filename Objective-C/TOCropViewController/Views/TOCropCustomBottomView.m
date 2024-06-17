@@ -11,20 +11,19 @@
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UIButton *actionButton;
+@property (nonatomic, strong) UILabel *underlineLabel;
 
 @property (nonatomic, strong) NSArray* aspectRatios;
 @property (nonatomic, assign) int curIndex;
-@property (nonatomic, assign) BOOL showAdFree;
 
 @end
 
 @implementation TOCropCustomBottomView
 
-- (instancetype)initWithFrame:(CGRect)frame showAdFree: (BOOL)showAdFree
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.showAdFree = showAdFree;
         [self setupView];
     }
     return self;
@@ -74,23 +73,28 @@
     [self.actionButton addTarget:self action:@selector(doneButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.actionButton];
     
-    if (self.showAdFree) {
-        // 添加带下划线的文字
-        UILabel *underlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.actionButton.frame) + 20, self.bounds.size.width, 30)];
-        underlineLabel.text = @"Ad-Free Creation";
-        underlineLabel.textColor = [UIColor whiteColor];
-        underlineLabel.font = [UIFont systemFontOfSize:16];
-        underlineLabel.textAlignment = NSTextAlignmentCenter;
-        underlineLabel.userInteractionEnabled = YES; // 启用用户交互
-        // 创建带下划线的属性字符串
-        NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:underlineLabel.text];
-        [attributedText addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:NSMakeRange(0, underlineLabel.text.length)];
-        underlineLabel.attributedText = attributedText;
-        // 添加点击手势识别器
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(underlineLabelTapped)];
-        [underlineLabel addGestureRecognizer:tapGesture];
-        [self addSubview:underlineLabel];
-    }
+    // 添加带下划线的文字
+    UILabel *underlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.actionButton.frame) + 20, self.bounds.size.width, 30)];
+    underlineLabel.text = @"Ad-Free Creation";
+    underlineLabel.textColor = [UIColor whiteColor];
+    underlineLabel.font = [UIFont systemFontOfSize:16];
+    underlineLabel.textAlignment = NSTextAlignmentCenter;
+    underlineLabel.userInteractionEnabled = YES;
+    underlineLabel.hidden = true;
+    // 启用用户交互
+    // 创建带下划线的属性字符串
+    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:underlineLabel.text];
+    [attributedText addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:NSMakeRange(0, underlineLabel.text.length)];
+    underlineLabel.attributedText = attributedText;
+    // 添加点击手势识别器
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(underlineLabelTapped)];
+    [underlineLabel addGestureRecognizer:tapGesture];
+    self.underlineLabel = underlineLabel;
+    [self addSubview:underlineLabel];
+}
+
+- (void)updateAdFree: (BOOL)showAdFree {
+    self.underlineLabel.hidden = !showAdFree;
 }
 
 - (void)onClickRotation {

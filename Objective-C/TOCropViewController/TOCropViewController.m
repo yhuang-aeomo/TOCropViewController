@@ -478,6 +478,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
         [self.cropView moveCroppedContentToCenterAnimated:NO];
     }
     
+    [self.bottomView updateAdFree:self.showAdFree];
+    
     [UIView performWithoutAnimation:^{
         self.toolbar.frame = [self frameForToolbarWithVerticalLayout:self.verticalLayout];
         [self adjustToolbarInsets];
@@ -1099,7 +1101,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
 
 - (void)setupBottomView {
     CGRect frame = CGRectMake(0, self.view.bounds.size.height - kTOCropViewControllerToolbarHeight, self.view.bounds.size.width, kTOCropViewControllerToolbarHeight);
-    self.bottomView = [[TOCropCustomBottomView alloc] initWithFrame:frame showAdFree:self.showAdFree];
+    self.bottomView = [[TOCropCustomBottomView alloc] initWithFrame:frame];
     [self.view addSubview:self.bottomView];
     self.bottomView.frame = [self frameForToolbarWithVerticalLayout:self.verticalLayout];
     __weak typeof(self) weakSelf = self;
