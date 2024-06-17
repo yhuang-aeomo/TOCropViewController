@@ -12,6 +12,7 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UIButton *actionButton;
 @property (nonatomic, strong) UILabel *underlineLabel;
+@property (nonatomic, strong) UIImageView *adIcon;
 
 @property (nonatomic, strong) NSArray* aspectRatios;
 @property (nonatomic, assign) int curIndex;
@@ -63,15 +64,33 @@
     
     self.aspectRatios = @[@"1:1", @"3:4", @"4:3", @"4:5", @"5:4", @"9:16", @"16:9"];
     
+    // 创建按钮
     self.actionButton = [UIButton buttonWithType:UIButtonTypeSystem];
     self.actionButton.frame = CGRectMake(self.bounds.size.width/4, CGRectGetMaxY(self.collectionView.frame) + 20, self.bounds.size.width/2, 50);
-    [self.actionButton setTitle:@"Try It" forState:UIControlStateNormal];
-    [self.actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.actionButton.backgroundColor = [UIColor whiteColor];
     self.actionButton.layer.cornerRadius = 15;
-    self.actionButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
     [self.actionButton addTarget:self action:@selector(doneButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.actionButton];
+    // 创建自定义视图
+    UIView *customView = [[UIView alloc] initWithFrame:self.actionButton.bounds];
+    customView.userInteractionEnabled = NO;
+    // 创建标签
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.text = @"Try It";
+    label.font = [UIFont boldSystemFontOfSize:20];
+    label.textColor = [UIColor blackColor];
+    [label sizeToFit];
+    label.center = CGPointMake(customView.frame.size.width / 2, customView.frame.size.height / 2);
+    [customView addSubview:label];
+    // 创建图标
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ad_icon"]];
+    CGFloat imageWidth = 15;
+    imageView.frame = CGRectMake(customView.frame.size.width - imageWidth - 30, (customView.frame.size.height - imageWidth) / 2, imageWidth, imageWidth); // 调整图标的位置和大小
+    imageView.hidden = true;
+    self.adIcon = imageView;
+    [customView addSubview:imageView];
+    // 添加自定义视图到按钮
+    [self.actionButton addSubview:customView];
     
     // 添加带下划线的文字
     UILabel *underlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.actionButton.frame) + 20, self.bounds.size.width, 30)];
@@ -95,6 +114,7 @@
 
 - (void)updateAdFree: (BOOL)showAdFree {
     self.underlineLabel.hidden = !showAdFree;
+    self.adIcon.hidden = !showAdFree;
 }
 
 - (void)onClickRotation {
