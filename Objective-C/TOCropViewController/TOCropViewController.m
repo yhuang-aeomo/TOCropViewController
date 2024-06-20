@@ -73,6 +73,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
 @property (nonatomic, strong) UIButton *closeButton;
 
 @property (nonatomic, strong) UIView *overlayView;
+@property (nonatomic, strong) UILabel *overlayLabel;
 
 
 @end
@@ -479,6 +480,11 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
     }
     
     [self.bottomView updateAdFree:self.showAdFree];
+    [self.bottomView updateTranslates:self.translations];
+    NSString *guideText = self.translations[@"guideText"];
+    if (guideText && guideText.length > 0) {
+        self.overlayLabel.text = self.translations[@"guideText"];
+    }
     
     [UIView performWithoutAnimation:^{
         self.toolbar.frame = [self frameForToolbarWithVerticalLayout:self.verticalLayout];
@@ -1450,6 +1456,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.translatesAutoresizingMaskIntoConstraints = NO;
+    self.overlayLabel = label;
     
     // 添加 UILabel 到 overlayView
     [overlayView addSubview:label];

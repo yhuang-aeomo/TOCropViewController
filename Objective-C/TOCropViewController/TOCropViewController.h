@@ -329,6 +329,7 @@
 //是否显示ad free按钮
 @property (nonatomic, assign) BOOL showAdFree;
 @property (nonatomic, assign) BOOL clickAdFree;
+@property (nullable, nonatomic, strong) NSDictionary<NSString *, NSString *> * translations;
 
 /**
  When the user hits cancel, or completes a

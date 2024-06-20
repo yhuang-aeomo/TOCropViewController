@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) void (^aspectRatioCallback)(float width, float height);
 
 - (void)updateAdFree: (BOOL)showAdFree;
+- (void)updateTranslates:(NSDictionary<NSString *, NSString *> *)translates;
 
 @end
 
