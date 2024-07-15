@@ -1118,6 +1118,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
         [weakSelf.cropView rotateImageNinetyDegreesAnimated: true clockwise: true];
     };
     self.bottomView.aspectRatioCallback = ^(float width, float height) {
+        [weakSelf.cropView setAspectRatio:CGSizeZero animated:true];
         [weakSelf.cropView setAspectRatio:CGSizeMake(width, height) animated:true];
     };
     self.bottomView.adFreeCallback = ^{
