@@ -64,7 +64,7 @@
     self.collectionView.contentInset = UIEdgeInsetsZero;
     [self addSubview:self.collectionView];
     
-    self.aspectRatios = @[@"1:1", @"3:4", @"4:3", @"4:5", @"5:4", @"9:16", @"16:9"];
+    self.aspectRatios = @[@"3:4", @"4:3", @"1:1", @"4:5", @"5:4", @"9:16", @"16:9"];
     
     // 创建按钮
     self.actionButton = [UIButton buttonWithType:UIButtonTypeSystem];

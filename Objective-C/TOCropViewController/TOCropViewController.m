@@ -128,7 +128,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
     
     // Layout the views initially
     self.cropView.frame = [self frameForCropViewWithVerticalLayout:self.verticalLayout];
-    
+    [self.cropView setAspectRatio:CGSizeMake(3, 4) animated:true];
     [self setupBottomView];
     
     //    self.toolbar.frame = [self frameForToolbarWithVerticalLayout:self.verticalLayout];
