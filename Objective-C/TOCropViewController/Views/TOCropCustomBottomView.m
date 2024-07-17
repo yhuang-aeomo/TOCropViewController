@@ -14,10 +14,12 @@
 @property (nonatomic, strong) UIButton *actionButton;
 @property (nonatomic, strong) UILabel *underlineLabel;
 @property (nonatomic, strong) UIImageView *adIcon;
+@property (nonatomic, strong) UIButton *rotationBtn;
 
 @property (nonatomic, strong) NSArray* aspectRatios;
 @property (nonatomic, assign) int curIndex;
 @property (nonatomic, assign) bool showAdFree;
+@property (nonatomic, assign) bool showAspectRatioBar;
 
 @end
 
@@ -47,6 +49,7 @@
     }
     [rotationBtn addTarget:self action:@selector(onClickRotation) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:rotationBtn];
+    self.rotationBtn = rotationBtn;
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -110,6 +113,12 @@
     if (tryIt != nil && tryIt.length > 0) {
         [self addCustomView:tryIt];
     }
+}
+
+- (void)updateShowAspectRatioBar: (BOOL)showAspectRatioBar {
+    self.showAspectRatioBar = showAspectRatioBar;
+    self.collectionView.hidden = !showAspectRatioBar;
+    self.rotationBtn.hidden = !showAspectRatioBar;
 }
 
 - (void)addCustomView: (NSString *)text {

@@ -330,6 +330,7 @@
 @property (nonatomic, assign) BOOL showAdFree;
 @property (nonatomic, assign) BOOL clickAdFree;
 @property (nullable, nonatomic, strong) NSDictionary<NSString *, NSString *> * translations;
+@property (nonatomic, assign) BOOL showAspectRatioBar;
 
 /**
  When the user hits cancel, or completes a

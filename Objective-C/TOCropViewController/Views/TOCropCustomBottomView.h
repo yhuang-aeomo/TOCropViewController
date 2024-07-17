@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateAdFree: (BOOL)showAdFree;
 - (void)updateTranslates:(NSDictionary<NSString *, NSString *> *)translates;
+- (void)updateShowAspectRatioBar: (BOOL)showAspectRatioBar;
 
 @end
 
