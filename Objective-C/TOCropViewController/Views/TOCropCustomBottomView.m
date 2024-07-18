@@ -119,7 +119,7 @@
     self.showAspectRatioBar = showAspectRatioBar;
     self.collectionView.hidden = !showAspectRatioBar;
     self.rotationBtn.hidden = !showAspectRatioBar;
-    self.actionButton.frame = CGRectMake(self.bounds.size.width/4, self.frame.size.height - 50 - 30 - 20, self.bounds.size.width/2, 50);
+    self.actionButton.frame = CGRectMake(self.bounds.size.width/4, self.frame.size.height - 50 - 30 - 20 - 40, self.bounds.size.width/2, 50);
     self.underlineLabel.frame = CGRectMake(0, CGRectGetMaxY(self.actionButton.frame) + 20, self.bounds.size.width, 30);
 }
 
