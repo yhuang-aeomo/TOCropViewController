@@ -482,10 +482,18 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
     
     [self.bottomView updateAdFree:self.showAdFree];
     [self.bottomView updateTranslates:self.translations];
-    [self.bottomView updateShowAspectRatioBar:self.showAspectRatioBar];
     if (!self.showAspectRatioBar) {
+        CGRect oldCropFrame = self.cropView.frame;
+        self.cropView.frame = CGRectMake(oldCropFrame.origin.x, oldCropFrame.origin.y, oldCropFrame.size.width, oldCropFrame.size.height + kTOCropViewControllerToolbarHeight/2);
         [self.cropView setAspectRatio:CGSizeMake(9, 16) animated:true];
+        self.bottomView.frame = CGRectMake(0, self.view.bounds.size.height - kTOCropViewControllerToolbarHeight/2, self.view.bounds.size.width, kTOCropViewControllerToolbarHeight/2);
+    }else{
+        self.cropView.frame = [self frameForCropViewWithVerticalLayout:self.verticalLayout];
+        [self.cropView setAspectRatio:CGSizeMake(3, 4) animated:true];
+        self.bottomView.frame = CGRectMake(0, self.view.bounds.size.height - kTOCropViewControllerToolbarHeight, self.view.bounds.size.width, kTOCropViewControllerToolbarHeight);
     }
+    [self.bottomView updateShowAspectRatioBar:self.showAspectRatioBar];
+
     NSString *guideText = self.translations[@"guideText"];
     if (guideText && guideText.length > 0) {
         self.overlayLabel.text = self.translations[@"guideText"];
