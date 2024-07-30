@@ -1125,6 +1125,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
     self.bottomView.frame = [self frameForToolbarWithVerticalLayout:self.verticalLayout];
     __weak typeof(self) weakSelf = self;
     self.bottomView.doneCallback = ^{
+        weakSelf.clickAdFree = false;
         [weakSelf doneButtonTapped];
     };
     self.bottomView.rotateCallback = ^{
@@ -1136,7 +1137,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
     };
     self.bottomView.adFreeCallback = ^{
         weakSelf.clickAdFree = true;
-        [weakSelf dismissCropViewController];
+        [weakSelf doneButtonTapped];
     };
 }
 
