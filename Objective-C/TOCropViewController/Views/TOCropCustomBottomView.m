@@ -181,7 +181,9 @@
     
     UIView *ratioView = [[UIView alloc] initWithFrame:CGRectMake((labelWidth - width)/2, 0, width, 30)];
     ratioView.layer.borderColor = isSelected ? [UIColor yellowColor].CGColor : [UIColor whiteColor].CGColor;
-    ratioView.layer.borderWidth = 1.0;
+    ratioView.layer.borderWidth = 2.0;
+    ratioView.layer.cornerRadius = 5.0; // 设置圆角半径，值可以根据需要调整
+    ratioView.layer.masksToBounds = YES;
     [cell.contentView addSubview:ratioView];
     
     return cell;
