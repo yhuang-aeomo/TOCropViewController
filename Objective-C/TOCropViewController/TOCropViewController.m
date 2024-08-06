@@ -72,10 +72,6 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
 
 @property (nonatomic, strong) UIButton *closeButton;
 
-@property (nonatomic, strong) UIView *overlayView;
-@property (nonatomic, strong) UILabel *overlayLabel;
-
-
 @end
 
 @implementation TOCropViewController
@@ -149,8 +145,6 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
     
     // Initialize and set up the close button with system image
     [self setupCloseBtn];
-    
-    [self addOverlayGuideView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -493,11 +487,6 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
         self.bottomView.frame = CGRectMake(0, self.view.bounds.size.height - kTOCropViewControllerToolbarHeight, self.view.bounds.size.width, kTOCropViewControllerToolbarHeight);
     }
     [self.bottomView updateShowAspectRatioBar:self.showAspectRatioBar];
-
-    NSString *guideText = self.translations[@"guideText"];
-    if (guideText && guideText.length > 0) {
-        self.overlayLabel.text = self.translations[@"guideText"];
-    }
     
     [UIView performWithoutAnimation:^{
         self.toolbar.frame = [self frameForToolbarWithVerticalLayout:self.verticalLayout];
@@ -1432,67 +1421,6 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
 - (CGFloat)minimumAspectRatio
 {
     return self.cropView.minimumAspectRatio;
-}
-
-- (void)addOverlayGuideView{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    BOOL hasShownGuideView = [defaults boolForKey:@"toCropVCHasShowGuide"];
-    if (hasShownGuideView) {
-        return;
-    }
-    
-    // 创建一个全屏的黑色半透明层
-    UIView *overlayView = [[UIView alloc] initWithFrame:self.view.bounds];
-    overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5]; // 50% 透明度
-    self.overlayView = overlayView;
-    
-    // 添加 overlayView 到主视图
-    [self.cropView addSubview:overlayView];
-    
-    // 创建 UIImageView 用于显示图标
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"img_rate_guide"]];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    imageView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    // 添加 UIImageView 到 overlayView
-    [overlayView addSubview:imageView];
-    
-    // 布局约束 UIImageView
-    [NSLayoutConstraint activateConstraints:@[
-        [imageView.centerXAnchor constraintEqualToAnchor:overlayView.centerXAnchor],
-        [imageView.centerYAnchor constraintEqualToAnchor:overlayView.centerYAnchor],
-        [imageView.widthAnchor constraintEqualToConstant:100],
-        [imageView.heightAnchor constraintEqualToConstant:100]
-    ]];
-    
-    // 创建 UILabel 用于显示文字
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"Pinch to zoom";
-    label.textColor = [UIColor whiteColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.translatesAutoresizingMaskIntoConstraints = NO;
-    self.overlayLabel = label;
-    
-    // 添加 UILabel 到 overlayView
-    [overlayView addSubview:label];
-    
-    // 布局约束 UILabel
-    [NSLayoutConstraint activateConstraints:@[
-        [label.centerXAnchor constraintEqualToAnchor:overlayView.centerXAnchor],
-        [label.topAnchor constraintEqualToAnchor:imageView.bottomAnchor constant:10]
-    ]];
-    
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
-    [overlayView addGestureRecognizer:tapGesture];
-}
-
-- (void)handleTapGesture:(UITapGestureRecognizer *)gesture {
-    [self.overlayView removeFromSuperview];
-    self.overlayView = nil;
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:YES forKey:@"toCropVCHasShowGuide"];
-    [defaults synchronize];
 }
 
 @end
