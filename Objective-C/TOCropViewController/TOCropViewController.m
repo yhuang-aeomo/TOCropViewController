@@ -479,6 +479,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
     if (!self.showAspectRatioBar) {
         CGRect oldCropFrame = self.cropView.frame;
         self.cropView.frame = CGRectMake(oldCropFrame.origin.x, oldCropFrame.origin.y, oldCropFrame.size.width, oldCropFrame.size.height + kTOCropViewControllerToolbarHeight/2);
+        [self.cropView setAspectRatio:CGSizeZero animated:true];
         [self.cropView setAspectRatio:CGSizeMake(9, 16) animated:true];
         self.bottomView.frame = CGRectMake(0, self.view.bounds.size.height - kTOCropViewControllerToolbarHeight/2, self.view.bounds.size.width, kTOCropViewControllerToolbarHeight/2);
     }else{
