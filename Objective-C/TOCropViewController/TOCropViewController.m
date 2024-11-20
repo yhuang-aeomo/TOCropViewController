@@ -480,7 +480,22 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
         CGRect oldCropFrame = self.cropView.frame;
         self.cropView.frame = CGRectMake(oldCropFrame.origin.x, oldCropFrame.origin.y, oldCropFrame.size.width, oldCropFrame.size.height + kTOCropViewControllerToolbarHeight/2);
         [self.cropView setAspectRatio:CGSizeZero animated:true];
-        [self.cropView setAspectRatio:CGSizeMake(9, 16) animated:true];
+        
+        TOCropViewControllerAspectRatioPreset ratio = self.allowedAspectRatios.firstObject.integerValue;
+        NSArray<NSString *> *portraitRatio = @[@"0:0", @"1:1", @"2:3", @"3:5", @"3:4", @"4:5", @"5:7", @"9:16"];
+        CGSize defaultAspectRatio = CGSizeMake(9, 16);
+        NSString *itemTitle = ratio < portraitRatio.count ? portraitRatio[ratio] : nil;
+        CGSize aspectRatioSize = defaultAspectRatio;
+        if (itemTitle) {
+            NSArray<NSString *> *components = [itemTitle componentsSeparatedByString:@":"];
+            if (components.count == 2) {
+                NSInteger xInt = [components[0] integerValue];
+                NSInteger yInt = [components[1] integerValue];
+                aspectRatioSize = CGSizeMake(xInt, yInt);
+            }
+        }
+        [self.cropView setAspectRatio:aspectRatioSize animated:true];
+        
         self.bottomView.frame = CGRectMake(0, self.view.bounds.size.height - kTOCropViewControllerToolbarHeight/2, self.view.bounds.size.width, kTOCropViewControllerToolbarHeight/2);
     }else{
         self.cropView.frame = [self frameForCropViewWithVerticalLayout:self.verticalLayout];
