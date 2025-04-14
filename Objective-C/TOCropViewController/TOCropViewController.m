@@ -118,7 +118,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
     
     // Set up view controller properties
     self.transitioningDelegate = self;
-    self.view.backgroundColor = self.cropView.backgroundColor;
+    self.view.backgroundColor = [UIColor whiteColor];
     
     BOOL circularMode = (self.croppingStyle == TOCropViewCroppingStyleCircular);
     
@@ -1191,7 +1191,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
         // Fallback for earlier iOS versions
         [self.closeButton setTitle:@"X" forState:UIControlStateNormal];
     }
-    self.closeButton.tintColor = [UIColor whiteColor]; // Set the color to white
+    self.closeButton.tintColor = [UIColor blackColor]; // Set the color to black
     [self.closeButton addTarget:self action:@selector(dismissCropViewController) forControlEvents:UIControlEventTouchUpInside];
     CGFloat buttonSize = 44.0f;
     CGFloat padding = 10.0f;
@@ -1216,7 +1216,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 250.0f;
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     _titleLabel.backgroundColor = [UIColor clearColor];
-    _titleLabel.textColor = [UIColor whiteColor];
+    _titleLabel.textColor = [UIColor blackColor];
     _titleLabel.numberOfLines = 1;
     _titleLabel.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
     _titleLabel.clipsToBounds = YES;

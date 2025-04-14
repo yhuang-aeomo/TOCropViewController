@@ -35,11 +35,11 @@
 }
 
 - (void)setupView {
-    self.backgroundColor = [UIColor colorWithWhite:0.12f alpha:1.0f];
+    self.backgroundColor = [UIColor whiteColor];
     
     UIButton *rotationBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.bounds.size.width - 40  - 10, 0, 40, 40)];
     if (@available(iOS 13.0, *)) {
-        UIImage *rotationImage = [[UIImage systemImageNamed:@"rotate.right"] imageWithTintColor:[UIColor whiteColor] renderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage *rotationImage = [[UIImage systemImageNamed:@"rotate.right"] imageWithTintColor:[UIColor blackColor] renderingMode:UIImageRenderingModeAlwaysOriginal];
         [rotationBtn setImage:rotationImage forState:UIControlStateNormal];
         rotationBtn.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent: 0.7];
         rotationBtn.layer.cornerRadius = 10;
@@ -72,7 +72,7 @@
     // 创建按钮
     self.actionButton = [UIButton buttonWithType:UIButtonTypeSystem];
     self.actionButton.frame = CGRectMake(self.bounds.size.width/4, self.frame.size.height - 50 - 30 - 20, self.bounds.size.width/2, 50);
-    self.actionButton.backgroundColor = [UIColor whiteColor];
+    self.actionButton.backgroundColor = [UIColor colorWithRed:0xB1/255.0f green:0x71/255.0f blue:0xF9/255.0f alpha:1.0f];
     self.actionButton.layer.cornerRadius = 15;
     [self.actionButton addTarget:self action:@selector(doneButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.actionButton];
@@ -81,7 +81,7 @@
     // 添加带下划线的文字
     UILabel *underlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.actionButton.frame) + 20, self.bounds.size.width, 30)];
     underlineLabel.text = @"Ad-Free Creation";
-    underlineLabel.textColor = [UIColor whiteColor];
+    underlineLabel.textColor = [UIColor blackColor];
     underlineLabel.font = [UIFont systemFontOfSize:16];
     underlineLabel.textAlignment = NSTextAlignmentCenter;
     underlineLabel.userInteractionEnabled = YES;
@@ -134,7 +134,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.text = text;
     label.font = [UIFont boldSystemFontOfSize:20];
-    label.textColor = [UIColor blackColor];
+    label.textColor = [UIColor whiteColor];
     [label sizeToFit];
     label.center = CGPointMake(customView.frame.size.width / 2, customView.frame.size.height / 2);
     [customView addSubview:label];
@@ -174,13 +174,13 @@
     CGFloat labelWidth = MAX(width, 35);
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 35, labelWidth, 15)];
     label.text = self.aspectRatios[indexPath.row];
-    label.textColor = isSelected ? [UIColor yellowColor] : [UIColor whiteColor];
+    label.textColor = isSelected ? [UIColor colorWithRed:0xB1/255.0f green:0x71/255.0f blue:0xF9/255.0f alpha:1.0f] : [UIColor blackColor];
     label.font = [UIFont systemFontOfSize:12];
     label.textAlignment = NSTextAlignmentCenter;
     [cell.contentView addSubview:label];
     
     UIView *ratioView = [[UIView alloc] initWithFrame:CGRectMake((labelWidth - width)/2, 0, width, 30)];
-    ratioView.layer.borderColor = isSelected ? [UIColor yellowColor].CGColor : [UIColor whiteColor].CGColor;
+    ratioView.layer.borderColor = isSelected ? [UIColor colorWithRed:0xB1/255.0f green:0x71/255.0f blue:0xF9/255.0f alpha:1.0f].CGColor : [UIColor blackColor].CGColor;
     ratioView.layer.borderWidth = 2.0;
     ratioView.layer.cornerRadius = 5.0; // 设置圆角半径，值可以根据需要调整
     ratioView.layer.masksToBounds = YES;
@@ -222,11 +222,11 @@
         if ([subview isKindOfClass:[UIButton class]] && subview != sender) {
             UIButton *button = (UIButton *)subview;
             button.selected = NO;
-            button.layer.borderColor = [UIColor yellowColor].CGColor;
+            button.layer.borderColor = [UIColor colorWithRed:0xB1/255.0f green:0x71/255.0f blue:0xF9/255.0f alpha:1.0f].CGColor;
         }
     }
     sender.selected = YES;
-    sender.layer.borderColor = [UIColor blueColor].CGColor;
+    sender.layer.borderColor = [UIColor colorWithRed:0xB1/255.0f green:0x71/255.0f blue:0xF9/255.0f alpha:1.0f].CGColor;
 }
 
 - (void)doneButtonTapped {
