@@ -21,6 +21,10 @@
 @property (nonatomic, assign) bool showAdFree;
 @property (nonatomic, assign) bool showAspectRatioBar;
 
+
+#define kTOCropCustomBottomViewColor [UIColor colorWithRed:134.0/255.0 green:255.0/255.0 blue:189.0/255.0 alpha:1.0]
+
+
 @end
 
 @implementation TOCropCustomBottomView
@@ -174,13 +178,13 @@
     CGFloat labelWidth = MAX(width, 35);
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 35, labelWidth, 15)];
     label.text = self.aspectRatios[indexPath.row];
-    label.textColor = isSelected ? [UIColor yellowColor] : [UIColor whiteColor];
+    label.textColor = isSelected ? kTOCropCustomBottomViewColor : [UIColor whiteColor];
     label.font = [UIFont systemFontOfSize:12];
     label.textAlignment = NSTextAlignmentCenter;
     [cell.contentView addSubview:label];
     
     UIView *ratioView = [[UIView alloc] initWithFrame:CGRectMake((labelWidth - width)/2, 0, width, 30)];
-    ratioView.layer.borderColor = isSelected ? [UIColor yellowColor].CGColor : [UIColor whiteColor].CGColor;
+    ratioView.layer.borderColor = isSelected ? kTOCropCustomBottomViewColor.CGColor : [UIColor whiteColor].CGColor;
     ratioView.layer.borderWidth = 2.0;
     ratioView.layer.cornerRadius = 5.0; // 设置圆角半径，值可以根据需要调整
     ratioView.layer.masksToBounds = YES;
@@ -222,7 +226,7 @@
         if ([subview isKindOfClass:[UIButton class]] && subview != sender) {
             UIButton *button = (UIButton *)subview;
             button.selected = NO;
-            button.layer.borderColor = [UIColor yellowColor].CGColor;
+            button.layer.borderColor = kTOCropCustomBottomViewColor.CGColor;
         }
     }
     sender.selected = YES;
